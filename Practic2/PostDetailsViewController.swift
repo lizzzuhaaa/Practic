@@ -60,7 +60,7 @@ class PostDetailsViewController: UIViewController {
         bookmarkPath.close()
         
         bookmarkLayer.path = bookmarkPath.cgPath
-        bookmarkLayer.fillColor = UIColor.clear.cgColor
+        bookmarkLayer.fillColor = UIColor.white.cgColor
         bookmarkLayer.strokeColor = UIColor.lightGray.cgColor
         bookmarkLayer.lineWidth = 2.0
         bookmarkLayer.opacity = 0.0
