@@ -17,71 +17,16 @@ class PostDetailsViewController: UIViewController {
     @IBOutlet private weak var commentsButton: UIButton!
     @IBOutlet private weak var shareButton: UIButton!
     @IBOutlet private weak var background: UIView!
-    
-    @IBOutlet private weak var imageView: UIView!
-    
     private var post: Post = Post()
     private var savedPosts : SavedPostsManager = SavedPostsManager()
+    
+    
     
     override func viewDidLoad() {
         setUpPage()
         super.viewDidLoad()
-        
-        
-        let tap = UITapGestureRecognizer(target: self, action: #selector(doubleTapped))
-           tap.numberOfTapsRequired = 2
-        self.imageView.addGestureRecognizer(tap)
     }
     
-    @objc func doubleTapped()
-    {
-        if let _ = post.reddit["Saved"]
-        {
-            self.savingButton.setImage(UIImage(systemName:"bookmark.fill"), for: .normal)
-                post.reddit["Saved"] = "true"
-            self.savedPosts.savePost(post: post)
-        }
-        drawBookMark()
-    }
-    
-    func drawBookMark()
-    {
-        
-        let bookmarkLayer = CAShapeLayer()
-        imageView.layer.addSublayer(bookmarkLayer)
-        let bookmarkPath = UIBezierPath()
-        bookmarkPath.move(to: CGPoint(x: imageView.center.x-40, y: 0))
-        bookmarkPath.addLine(to: CGPoint(x: imageView.center.x+40, y: 0))
-        bookmarkPath.addLine(to: CGPoint(x: imageView.center.x+50, y: 10))
-        bookmarkPath.addLine(to: CGPoint(x: imageView.center.x+50, y: 150))
-        bookmarkPath.addLine(to: CGPoint(x: imageView.center.x, y: 110))
-        bookmarkPath.addLine(to: CGPoint(x: imageView.center.x-50, y: 150))
-        bookmarkPath.addLine(to: CGPoint(x: imageView.center.x-50, y: 10))
-        bookmarkPath.close()
-        
-        bookmarkLayer.path = bookmarkPath.cgPath
-        bookmarkLayer.fillColor = UIColor.clear.cgColor
-        bookmarkLayer.strokeColor = UIColor.lightGray.cgColor
-        bookmarkLayer.lineWidth = 2.0
-        bookmarkLayer.opacity = 0.0
-        imageView.layer.addSublayer(bookmarkLayer)
-        CATransaction.begin()
-        let animation = CABasicAnimation(keyPath: "opacity")
-        animation.fromValue = 0.0
-        animation.toValue = 1.0
-        animation.duration = 0.5
-        bookmarkLayer.opacity = 1.0
-        bookmarkLayer.add(animation, forKey: "opacityAnimation")
-        let bookmarkAnimation = CABasicAnimation(keyPath: "opacity")
-        bookmarkAnimation.fromValue = 1.0
-        bookmarkAnimation.toValue = 0.0
-        bookmarkAnimation.duration = 0.7
-        bookmarkAnimation.timingFunction = CAMediaTimingFunction(name: .easeInEaseOut)
-        bookmarkLayer.add(bookmarkAnimation, forKey: "opacity")
-        bookmarkLayer.opacity = 0.0
-        CATransaction.commit()
-    }
- 
     public func redditMake(redditCurrent:Post, saved: SavedPostsManager)
     {
         self.savedPosts = saved
